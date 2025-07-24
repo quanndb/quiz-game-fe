@@ -1,11 +1,11 @@
 "use client";
 import GameButton from "@/components/ui/GameButton";
+import useRouteLoader from "@/hooks/useRouteLoad";
 import { PLAY_MODE } from "@/resource/playMode";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 const PlayMode = () => {
-  const router = useRouter();
+  const router = useRouteLoader();
   return (
     <div>
       <Image

@@ -2,8 +2,8 @@
 import MenuLayout from "@/components/layouts/MenuLayout";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import useRouteLoader from "@/hooks/useRouteLoad";
 import { useSessionStore } from "@/store/sessionStore";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 enum TABS {
@@ -13,7 +13,7 @@ enum TABS {
 
 const Login = () => {
   const { session, setInitialSession } = useSessionStore();
-  const router = useRouter();
+  const router = useRouteLoader();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 

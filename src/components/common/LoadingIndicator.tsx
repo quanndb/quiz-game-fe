@@ -1,9 +1,47 @@
+"use client";
+import { useLoadingStore } from "@/store/loadingStore";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
 const LoadingIndicator = () => {
+  const { isLoading } = useLoadingStore();
+  const [visible, setVisible] = useState(false);
+  const [hideWithEffect, setHideWithEffect] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      setVisible(true);
+      setHideWithEffect(false);
+    } else {
+      // Trigger blur+fade out
+      setHideWithEffect(true);
+
+      // After animation ends, hide it completely
+      const timeout = setTimeout(() => {
+        setVisible(false);
+        setHideWithEffect(false);
+      }, 1000); // 500ms matches your transition duration
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isLoading]);
+
+  if (!visible) return null;
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-white opacity-50 flex items-center justify-center z-50">
-      <div className="w-16 h-16 border-8 border-solid rounded-full relative">
-        <div className="absolute inset-0 w-full h-full border-t-8 border-b-cyan-500 rounded-full animate-spin"></div>
-      </div>
+    <div
+      className={`fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center
+        bg-black bg-opacity-50 transition-all duration-500
+        ${hideWithEffect ? "opacity-0 blur-sm" : "opacity-100 blur-0"}
+      `}
+    >
+      <Image
+        src="/assets/loading.gif"
+        alt="loading"
+        width={1000}
+        height={400}
+        className="w-[28%]"
+      />
     </div>
   );
 };

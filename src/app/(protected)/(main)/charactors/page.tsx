@@ -1,13 +1,13 @@
 "use client";
 import FlipCard from "@/components/common/FlipCard";
 import Button from "@/components/ui/Button";
+import useRouteLoader from "@/hooks/useRouteLoad";
 import { CHARACTOR_MENU } from "@/resource/charactor";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CharactorSelection = () => {
-  const router = useRouter();
+  const router = useRouteLoader();
   const [selectedCharactor, setSelectedCharactor] = useState<string | null>(
     null
   );

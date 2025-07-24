@@ -1,12 +1,23 @@
 "use client";
 import ImageBackgroundLayout from "@/components/layouts/ImageBackgroundLayout";
+import useRouteLoader from "@/hooks/useRouteLoad";
+import { useLoadingStore } from "@/store/loadingStore";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Game = () => {
-  const router = useRouter();
+  const router = useRouteLoader();
+  const { setLoading } = useLoadingStore();
   const [chapter, setChapter] = useState(1);
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [chapter]);
+
   const handleSetChapter = (newChapter: number) => {
     if (newChapter === 5) {
       router.replace("/");

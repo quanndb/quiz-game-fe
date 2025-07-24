@@ -1,3 +1,5 @@
+import LoadingHandler from "@/components/common/LoadingHandler";
+import LoadingIndicator from "@/components/common/LoadingIndicator";
 import "@/style/globals.css";
 import type { Metadata } from "next";
 import { Phudu } from "next/font/google";
@@ -19,7 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${phudu.variable} antialiased`}>{children}</body>
+      <body className={`${phudu.variable} antialiased`}>
+        {children}
+
+        <LoadingIndicator />
+        <LoadingHandler />
+      </body>
     </html>
   );
 }

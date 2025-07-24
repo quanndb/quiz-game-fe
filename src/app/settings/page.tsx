@@ -1,12 +1,12 @@
 "use client";
 import MenuLayout from "@/components/layouts/MenuLayout";
 import Button from "@/components/ui/Button";
+import useRouteLoader from "@/hooks/useRouteLoad";
 import { useSessionStore } from "@/store/sessionStore";
-import { useRouter } from "next/navigation";
 
 const Settings = () => {
   const { clearSession } = useSessionStore();
-  const router = useRouter();
+  const router = useRouteLoader();
   return (
     <MenuLayout>
       <h1>Settings</h1>

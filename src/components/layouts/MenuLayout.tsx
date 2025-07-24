@@ -1,8 +1,9 @@
 "use client";
 import ImageBackgroundLayout from "@/components/layouts/ImageBackgroundLayout";
+import useRouteLoader from "@/hooks/useRouteLoad";
 import { MAIN_MENU } from "@/resource/mainMenu";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Button from "../ui/Button";
 
 const MenuLayout = ({
@@ -15,7 +16,7 @@ const MenuLayout = ({
   isLoginPage?: boolean;
 }>) => {
   const path = usePathname();
-  const router = useRouter();
+  const router = useRouteLoader();
 
   return (
     <div>
