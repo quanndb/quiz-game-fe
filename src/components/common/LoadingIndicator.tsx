@@ -1,4 +1,5 @@
 "use client";
+import { LOADING } from "@/resource/loading";
 import { useLoadingStore } from "@/store/loadingStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -36,7 +37,7 @@ const LoadingIndicator = () => {
       `}
     >
       <Image
-        src="/assets/loading.gif"
+        src={LOADING.resourceUrl}
         alt="loading"
         width={1000}
         height={400}
