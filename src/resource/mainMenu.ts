@@ -18,6 +18,4 @@ export const MAIN_MENU = {
       image: "/assets/leaderboard.svg",
     },
   ],
-  settingsImage: "/assets/setting.svg",
-  backButtonImage: "/assets/backButton.png",
 };

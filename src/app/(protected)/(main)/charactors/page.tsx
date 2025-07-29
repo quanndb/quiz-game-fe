@@ -1,7 +1,7 @@
 "use client";
 import FlipCard from "@/components/common/FlipCard";
 import Button from "@/components/ui/Button";
-import useRouteLoader from "@/hooks/useRouteLoad";
+import useRouteLoader from "@/hooks/useRouteLoader";
 import { CHARACTOR_MENU } from "@/resource/charactor";
 import Image from "next/image";
 import { useState } from "react";
@@ -60,7 +60,6 @@ const CharactorSelection = () => {
           disabled={!selectedCharactor}
           onClick={() => router.push("/game")}
           backgroundImage="/assets/selectCharactor.svg"
-          className="w-auto h-auto"
         ></Button>
       </div>
     </>

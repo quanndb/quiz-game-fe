@@ -1,0 +1,46 @@
+/* Giai đoạn 1: rơi xuống và dao động nhẹ */
+@keyframes dropAndSwing {
+  0% {
+    transform: translateY(-200px) rotate(0deg);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(0px) rotate(15deg);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  70% {
+    transform: rotate(5deg);
+  }
+  90% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Giai đoạn 2: bay lên và biến mất */
+@keyframes flyUp {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* Class rơi xuống ban đầu */
+.swing-sign {
+  animation: dropAndSwing 1s ease-out forwards;
+  transform-origin: top center;
+  display: inline-block;
+}
+
+.fly-up {
+  animation: flyUp 0.5s ease-in forwards;
+}

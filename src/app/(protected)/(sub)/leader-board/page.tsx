@@ -1,14 +1,16 @@
-import { LEADER_BOARD } from "@/resource/leaderBoard";
+import UI from "@/resource/ui";
 import Image from "next/image";
 
 const LeaderBoard = () => {
   return (
     <>
       <Image
-        src={LEADER_BOARD.backgroundImage}
+        src={UI.LEADER_BOARD.backgroundImage}
         alt="Leader Board"
         width={800}
         height={650}
+        className="w-auto h-auto"
+        priority
       />
     </>
   );

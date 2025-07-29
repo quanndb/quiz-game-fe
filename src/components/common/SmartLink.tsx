@@ -1,6 +1,6 @@
 "use client";
 
-import { LOADING } from "@/resource/loading";
+import UI from "@/resource/ui";
 import { useLoadingStore } from "@/store/loadingStore";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -8,7 +8,7 @@ import { useTransition } from "react";
 export default function SmartLink({
   href,
   children,
-  delay = LOADING.loadDelay,
+  delay = UI.LOADING.loadDelay,
   className = "",
 }: {
   href: string;

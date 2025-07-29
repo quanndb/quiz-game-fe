@@ -1,10 +1,12 @@
 "use client";
+import UI from "@/resource/ui";
 import Image from "next/image";
 import { useState } from "react";
 
 const Button = ({
   children,
-  backgroundImage = "/assets/button.svg",
+  type = "button",
+  backgroundImage = UI.BUTTON.defaultButtonImage,
   width = 260,
   height = 80,
   disabled = false,
@@ -12,6 +14,7 @@ const Button = ({
   onClick,
 }: {
   children?: React.ReactNode;
+  type?: "button" | "submit" | "reset" | undefined;
   backgroundImage?: string;
   width?: number;
   height?: number;
@@ -46,12 +49,14 @@ const Button = ({
       onMouseDown={() => handleMouseDown(true)}
       onMouseUp={() => handleMouseDown(false)}
       onMouseLeave={() => handleMouseDown(false)}
+      type={type}
     >
       <Image
         src={backgroundImage}
         alt="Button Icon"
         width={width}
         height={height}
+        style={{ height: `auto`, width: `auto` }}
       />
       <span className="font-bold absolute top-1/2 left-1/2 game-button-text -translate-x-1/2 -translate-y-1/2 uppercase">
         {children}

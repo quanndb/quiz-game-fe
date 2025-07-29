@@ -1,5 +1,5 @@
 "use client";
-import { LOADING } from "@/resource/loading";
+import UI from "@/resource/ui";
 import { useLoadingStore } from "@/store/loadingStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ const LoadingIndicator = () => {
       `}
     >
       <Image
-        src={LOADING.resourceUrl}
+        src={UI.LOADING.resourceUrl}
         alt="loading"
         width={1000}
         height={400}

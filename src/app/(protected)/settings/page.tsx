@@ -1,11 +1,10 @@
 "use client";
+import { logout } from "@/app/action/auth/actions";
 import MenuLayout from "@/components/layouts/MenuLayout";
 import Button from "@/components/ui/Button";
-import useRouteLoader from "@/hooks/useRouteLoad";
-import { useSessionStore } from "@/store/sessionStore";
+import useRouteLoader from "@/hooks/useRouteLoader";
 
 const Settings = () => {
-  const { clearSession } = useSessionStore();
   const router = useRouteLoader();
   return (
     <MenuLayout>
@@ -13,8 +12,8 @@ const Settings = () => {
       <p>Manage your preferences here.</p>
       <Button
         onClick={() => {
-          clearSession();
           router.push("/login");
+          logout();
         }}
       >
         Logout

@@ -9,32 +9,17 @@ export type SessionState = {
   } | null;
 };
 
-const initialState: SessionState = {
-  session: {
-    token: "abc",
-    username: "quizmaster",
-    fullName: "Quiz Master",
-  },
-};
-
 export type SessionActions = {
   setSession: (session: SessionState["session"]) => void;
   clearSession: () => void;
-  setInitialSession: () => void;
 };
 
 export const useSessionStore = create<SessionState & SessionActions>()(
   persist(
     (set) => ({
-      session: initialState.session,
+      session: null,
       setSession: (session) => set({ session }),
       clearSession: () => set({ session: null }),
-      setInitialSession: () => {
-        const initialSession = initialState.session;
-        if (initialSession) {
-          set({ session: initialSession });
-        }
-      },
     }),
     {
       name: "session-store",

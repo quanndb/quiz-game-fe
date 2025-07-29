@@ -1,5 +1,6 @@
 import LoadingHandler from "@/components/common/LoadingHandler";
 import LoadingIndicator from "@/components/common/LoadingIndicator";
+import SignToast from "@/components/ui/SignToast";
 import "@/style/globals.css";
 import type { Metadata } from "next";
 import { Phudu } from "next/font/google";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   description: "A fun and interactive quiz game",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -26,6 +27,7 @@ export default function RootLayout({
 
         <LoadingIndicator />
         <LoadingHandler />
+        <SignToast />
       </body>
     </html>
   );

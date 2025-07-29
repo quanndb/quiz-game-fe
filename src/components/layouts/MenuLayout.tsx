@@ -1,7 +1,8 @@
 "use client";
 import ImageBackgroundLayout from "@/components/layouts/ImageBackgroundLayout";
-import useRouteLoader from "@/hooks/useRouteLoad";
+import useRouteLoader from "@/hooks/useRouteLoader";
 import { MAIN_MENU } from "@/resource/mainMenu";
+import UI from "@/resource/ui";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Button from "../ui/Button";
@@ -27,6 +28,7 @@ const MenuLayout = ({
             alt="Quiz Game Banner"
             width={750}
             height={412}
+            priority
             className="mb-8 transform translate-x-[-5%] z-10 w-[350px] md:w-[750px]"
           />
         )}
@@ -39,11 +41,10 @@ const MenuLayout = ({
           {!isLoginPage && (
             <div className="fixed top-4 left-4 z-10">
               <Button
-                backgroundImage={MAIN_MENU.backButtonImage}
+                backgroundImage={UI.BUTTON.backButtonImage}
                 width={50}
                 height={50}
                 onClick={() => router.back()}
-                className="w-auto h-auto"
               ></Button>
             </div>
           )}

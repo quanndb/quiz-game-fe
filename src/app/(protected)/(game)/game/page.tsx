@@ -1,6 +1,6 @@
 "use client";
 import ImageBackgroundLayout from "@/components/layouts/ImageBackgroundLayout";
-import useRouteLoader from "@/hooks/useRouteLoad";
+import useRouteLoader from "@/hooks/useRouteLoader";
 import { useLoadingStore } from "@/store/loadingStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -33,6 +33,7 @@ const Game = () => {
         alt={`Chapter ${chapter}`}
         width={560}
         height={178}
+        className="w-auto h-auto"
       />
       <button
         className="cursor-pointer bg-amber-500 p-4 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-colors"

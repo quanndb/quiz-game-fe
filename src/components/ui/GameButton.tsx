@@ -33,7 +33,7 @@ const GameButton = ({
           width={width}
           height={height}
           className={`${isDisabled ? "grayscale" : ""}`}
-          style={{ width: `${width}px`, height: `fit-content` }}
+          style={{ height: `auto`, width: `auto` }}
         />
       </div>
     </button>

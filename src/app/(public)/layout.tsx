@@ -9,8 +9,8 @@ export default async function ProtectedRoute({
   const cookieStore = await cookies();
   const token = cookieStore.get("Authorization")?.value;
 
-  if (!token) {
-    redirect("/login");
+  if (token) {
+    redirect("/");
   }
   return <>{children}</>;
 }

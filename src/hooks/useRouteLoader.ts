@@ -1,11 +1,11 @@
 "use client";
 
-import { LOADING } from "@/resource/loading";
+import UI from "@/resource/ui";
 import { useLoadingStore } from "@/store/loadingStore";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-const useRouteLoader = (delay = LOADING.loadDelay) => {
+const useRouteLoader = (delay = UI.LOADING.loadDelay) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const { setLoading } = useLoadingStore();

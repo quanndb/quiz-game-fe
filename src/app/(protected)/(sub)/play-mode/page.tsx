@@ -1,6 +1,6 @@
 "use client";
 import GameButton from "@/components/ui/GameButton";
-import useRouteLoader from "@/hooks/useRouteLoad";
+import useRouteLoader from "@/hooks/useRouteLoader";
 import { PLAY_MODE } from "@/resource/playMode";
 import Image from "next/image";
 
@@ -20,8 +20,9 @@ const PlayMode = () => {
             key={mode.id}
             alt={mode.name}
             imageURL={mode.image}
-            width={560}
+            width={550}
             height={178}
+            className="max-w-[500px]"
             onClick={() => router.push("/charactors")}
           />
         ))}

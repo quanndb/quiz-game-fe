@@ -35,6 +35,15 @@ body {
   letter-spacing: 2px;
 }
 
+.sign-text {
+  font-family: var(--font-phudu);
+  paint-order: stroke fill;
+  -webkit-text-stroke: 4px #752602;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
 .game-text {
   font-family: var(--font-phudu);
   font-style: normal;
