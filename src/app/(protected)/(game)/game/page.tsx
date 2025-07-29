@@ -16,7 +16,7 @@ const Game = () => {
       setLoading(false);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [chapter]);
+  }, [chapter, setLoading]);
 
   const handleSetChapter = (newChapter: number) => {
     if (newChapter === 5) {

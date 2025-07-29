@@ -84,9 +84,13 @@ export async function logout() {
       message: "Đăng xuất thành công!",
     };
   } catch (err) {
+    let message = "Đã có lỗi xảy ra!";
+    if (axios.isAxiosError(err)) {
+      message = err.response?.data?.message || message;
+    }
     return {
       success: false,
-      message: "Đã có lỗi xảy ra!",
+      message: message,
     };
   }
 }

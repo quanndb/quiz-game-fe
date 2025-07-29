@@ -1,6 +1,6 @@
 export interface FormState {
   success: boolean;
   message?: string;
-  data?: {};
-  errors?: {};
+  data?: unknown;
+  errors?: unknown;
 }
