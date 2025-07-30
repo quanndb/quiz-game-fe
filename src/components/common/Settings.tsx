@@ -31,10 +31,14 @@ const Settings = () => {
             transition={{ type: "spring", bounce: 0.5, duration: 1 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
           >
-            <div
-              style={{ backgroundImage: `url(${UI.BACKGROUND.boardImage})` }}
-              className="relative w-[90vw] md:w-[600px] aspect-[600/512] bg-center bg-no-repeat bg-contain flex items-center justify-center"
-            >
+            <Image
+              src={UI.BACKGROUND.boardImage}
+              alt="Background"
+              width={600}
+              height={500}
+              className="w-auto h-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+            <div className="relative w-[90vw] md:w-[600px] aspect-[600/512] bg-center bg-no-repeat bg-contain flex items-center justify-center">
               <div className="absolute top-[17%] right-[4%]">
                 <Button
                   backgroundImage={UI.BUTTON.outImage}
