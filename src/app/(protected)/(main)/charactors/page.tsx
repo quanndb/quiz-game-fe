@@ -3,6 +3,7 @@ import FlipCard from "@/components/common/FlipCard";
 import Button from "@/components/ui/Button";
 import useRouteLoader from "@/hooks/useRouteLoader";
 import { CHARACTOR_MENU } from "@/resource/charactor";
+import UI from "@/resource/ui";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -33,6 +34,7 @@ const CharactorSelection = () => {
                 width={335}
                 height={463}
                 className="w-auto h-auto"
+                unoptimized
               />
             }
             backElement={
@@ -59,7 +61,7 @@ const CharactorSelection = () => {
           height={60}
           disabled={!selectedCharactor}
           onClick={() => router.push("/game")}
-          backgroundImage="/assets/selectCharactor.svg"
+          backgroundImage={UI.BUTTON.selectCharactorImage}
         ></Button>
       </div>
     </>

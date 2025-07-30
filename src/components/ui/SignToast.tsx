@@ -67,7 +67,7 @@ const SignToast = () => {
               className="h-auto w-[200px] md:w-auto"
             />
             <p
-              className={`absolute top-[50%] right-1/2 transform translate-x-1/2 -translate-y-1/2 text-lg font-bold sign-text w-[88%] p-x-2 ${
+              className={`absolute top-[50%] right-1/2 transform translate-x-1/2 -translate-y-1/2 text-md md:text-lg font-bold sign-text w-[88%] p-x-2 ${
                 success ? "text-green-500" : "text-red-500"
               } text-center`}
             >

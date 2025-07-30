@@ -9,6 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-phudu);
+  --font-mono: var(--font-lexend);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,9 +46,27 @@ body {
 }
 
 .game-text {
-  font-family: var(--font-phudu);
+  font-family: var(--font-lexend);
   font-style: normal;
   font-weight: 900;
   line-height: normal;
   letter-spacing: 1px;
+}
+
+.game-text-stroke {
+  font-family: var(--font-lexend);
+  paint-order: stroke fill;
+  -webkit-text-stroke: 4px #752602;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 1px;
+}
+
+.wooden-button-text {
+  font-family: var(--font-lexend);
+  font-style: normal;
+  font-weight: 900;
+  color: #561d1d;
+  line-height: normal;
 }

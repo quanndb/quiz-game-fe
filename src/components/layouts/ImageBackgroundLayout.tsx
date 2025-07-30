@@ -1,6 +1,4 @@
-import UI from "@/resource/ui";
-import SmartLink from "../common/SmartLink";
-import Button from "../ui/Button";
+import SettingButton from "../common/SettingButton";
 
 const ImageBackgroundLayout = ({
   children,
@@ -15,16 +13,9 @@ const ImageBackgroundLayout = ({
     >
       {children}
       {/* Settings button */}
-      <SmartLink
-        href="/settings"
-        className="fixed bottom-4 right-4 z-10 max-w-[50px]"
-      >
-        <Button
-          backgroundImage={UI.BUTTON.settingsImage}
-          width={10}
-          height={10}
-        />
-      </SmartLink>
+      <div className="fixed bottom-4 right-4 z-10 max-w-[50px]">
+        <SettingButton />
+      </div>
     </div>
   );
 };

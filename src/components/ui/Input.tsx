@@ -1,3 +1,4 @@
+import UI from "@/resource/ui";
 import Image from "next/image";
 import React from "react";
 
@@ -23,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className={`relative ${disable ? "cursor-not-allowed" : ""}`}>
         <label className="sr-only">{placeholder}</label>
         <Image
-          src="/assets/input.svg"
+          src={UI.INPUT.inputImage}
           alt="input"
           width={700}
           height={100}

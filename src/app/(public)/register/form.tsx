@@ -52,6 +52,7 @@ const RegisterForm = () => {
         placeholder="Email"
         {...register("email")}
         className="w-[300px] md:w-[500px]"
+        autoComplete="off"
       />
       <Input
         placeholder="Password"

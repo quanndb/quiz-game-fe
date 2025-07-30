@@ -30,6 +30,7 @@ const LoginForm = () => {
     if (!res.success) return showToastError(res.message);
     showToastSuccess(res.message);
     reset();
+    router.push("/");
   };
 
   const onInvalid = (errors: FieldErrors<LoginSchema>) => {
