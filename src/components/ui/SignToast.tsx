@@ -49,7 +49,7 @@ const SignToast = () => {
       {show && (
         <div
           ref={signRef}
-          className="fixed top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2  md:right-0 md:translate-x-0 z-50 swing-sign"
+          className="fixed top-0 right-1/2 transform translate-x-1/2 md:right-0 md:translate-x-0 z-50 swing-sign"
         >
           <Image
             src={UI.SIGN_TOAST.robImage}
