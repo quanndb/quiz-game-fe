@@ -6,7 +6,7 @@ import { withRequestHandler } from "../..";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   return withRequestHandler(async () => {
