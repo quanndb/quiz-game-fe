@@ -1,16 +1,17 @@
-import { axios } from "@/lib/config";
+import { AxiosIAMInstance } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
+import { withAuthCookie, withRequestHandler } from "..";
 
 export async function GET(request: NextRequest) {
-  try {
-    const accounts = await axios.get("/accounts", {
-      headers: {
-        Authorization: `Bearer ${request.cookies.get("Authorization")?.value}`,
-      },
-    });
-    console.log(accounts);
-    return NextResponse.json(accounts);
-  } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
-  }
+  return withRequestHandler(
+    async () => {
+      const accounts = await AxiosIAMInstance.get(
+        "/accounts",
+        await withAuthCookie()
+      );
+      return NextResponse.json(accounts);
+    },
+    request,
+    "account.read"
+  );
 }

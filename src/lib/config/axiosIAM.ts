@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AxiosInstance = axios.create({
+const AxiosIAMInstance = axios.create({
   baseURL: process.env.IAM_URI,
   headers: {
     "Content-Type": "application/json",
@@ -8,14 +8,14 @@ const AxiosInstance = axios.create({
   },
 });
 
-AxiosInstance.interceptors.request.use(
+AxiosIAMInstance.interceptors.request.use(
   (config) => {
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-AxiosInstance.interceptors.response.use(
+AxiosIAMInstance.interceptors.response.use(
   (response) => {
     return response.data;
   },
@@ -24,4 +24,4 @@ AxiosInstance.interceptors.response.use(
   }
 );
 
-export default AxiosInstance;
+export default AxiosIAMInstance;

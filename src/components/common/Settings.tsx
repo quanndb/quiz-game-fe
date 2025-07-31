@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/app/action/auth/actions";
 import UI from "@/resource/ui";
 import { useSettingStore } from "@/store/settingStore";
 import { AnimatePresence, motion } from "framer-motion";
@@ -114,7 +115,10 @@ const Settings = () => {
                   className="md:h-10 md:w-40 sm:h-8 sm:w-30 h-5 w-25"
                   height={40}
                   width={100}
-                  onClick={() => setIsShowing(false)}
+                  onClick={() => {
+                    setIsShowing(false);
+                    logout();
+                  }}
                 >
                   OK
                 </Button>

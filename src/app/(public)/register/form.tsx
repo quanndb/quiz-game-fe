@@ -30,7 +30,6 @@ const RegisterForm = () => {
     formData.append("confirmPassword", data.confirmPassword);
 
     const res = await registerAction(formData);
-    console.log(res);
     if (!res.success) return showToastError(res.message);
     showToastSuccess(res.message);
     reset();

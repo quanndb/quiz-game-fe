@@ -1,8 +1,8 @@
 export interface CharacterType {
   _id: string;
   name: string;
-  imageUrlSelected: string;
-  imageUrlUnselected: string;
+  backImageUrl: string;
+  frontImageUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,3 +1,5 @@
-import axios from "./axios";
+import AxiosIAMInstance from "./axiosIAM";
+import AxiosInstance from "./axiosInner";
+import s3 from "./s3Client";
 
-export { axios };
+export { AxiosIAMInstance, AxiosInstance, s3 };
