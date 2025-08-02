@@ -1,6 +1,5 @@
 export function generateFileName(fileName: string): string {
   const timestamp = Date.now();
-  const random = Math.floor(Math.random() * 1000);
 
   // Lấy phần mở rộng file nếu có
   const extension = fileName.includes(".") ? fileName.split(".").pop() : "";

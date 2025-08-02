@@ -5,12 +5,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "..";
 
 export async function GET(request: NextRequest) {
-  return withRequestHandler(async () => {
-    await connectDB();
-    const characters = await Character.find().lean();
+  return withRequestHandler(
+    async () => {
+      await connectDB();
+      const characters = await Character.find().lean();
 
-    return NextResponse.json(characters);
-  }, request);
+      return NextResponse.json(characters);
+    },
+    {
+      request,
+    }
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -20,8 +25,10 @@ export async function POST(request: NextRequest) {
       const character = await Character.create(body);
       return NextResponse.json(character);
     },
-    request,
-    "characters.create",
-    characterSchema
+    {
+      request,
+      permission: "characters.create",
+      schema: characterSchema,
+    }
   );
 }

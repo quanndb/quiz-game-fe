@@ -1,4 +1,4 @@
-export interface CharacterType {
+export interface ICharacter {
   _id: string;
   name: string;
   backImageUrl: string;

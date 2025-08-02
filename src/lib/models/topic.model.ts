@@ -11,6 +11,21 @@ const TopicSchema = new Schema(
     },
     description: { type: String },
     imageUrl: { type: String },
+    questions: [
+      {
+        title: { type: String, required: true },
+        description: { type: String },
+        mediaUrl: { type: String },
+        type: { type: String, required: true },
+        resources: [
+          {
+            type: { type: String, required: true },
+            value: { type: String, required: true },
+          },
+        ],
+        answer: { type: [String], required: true },
+      },
+    ],
   },
   {
     timestamps: true,

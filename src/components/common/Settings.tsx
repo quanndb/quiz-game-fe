@@ -24,7 +24,7 @@ const Settings = () => {
   return (
     <AnimatePresence>
       {isShowing && (
-        <div className="absolute top-0 left-0 min-w-screen min-h-screen bg-black/50 z-20">
+        <div className="fixed inset-0 z-20 bg-black/50 ">
           <motion.div
             initial={{ y: -200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -99,7 +99,7 @@ const Settings = () => {
                       }`}
                       onClick={() => setQuality("medium")}
                     >
-                      MED
+                      MD
                     </WoodenButton>
                     <WoodenButton
                       className={`text-xs md:text-sm ${

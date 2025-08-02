@@ -9,7 +9,6 @@ const SessionSchema = new Schema(
     },
     startAt: {
       type: Date,
-      required: true,
     },
     endAt: {
       type: Date,
@@ -17,8 +16,16 @@ const SessionSchema = new Schema(
     players: [
       {
         playerId: {
-          type: Types.ObjectId,
-          ref: "Player",
+          // UUID
+          type: String,
+          required: true,
+        },
+        isHost: {
+          type: Boolean,
+          required: true,
+        },
+        email: {
+          type: String,
           required: true,
         },
         characterId: {
@@ -32,11 +39,14 @@ const SessionSchema = new Schema(
         },
       },
     ],
-    answers: [
+    userAnswers: [
       {
         playerId: {
-          type: Types.ObjectId,
-          ref: "Player",
+          type: String,
+          required: true,
+        },
+        email: {
+          type: String,
           required: true,
         },
         questionId: {
@@ -46,6 +56,14 @@ const SessionSchema = new Schema(
         },
         answer: {
           type: [String],
+          required: true,
+        },
+        answeredAt: {
+          type: Date,
+          required: true,
+        },
+        isCorrect: {
+          type: Boolean,
           required: true,
         },
       },

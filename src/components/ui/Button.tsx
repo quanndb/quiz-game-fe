@@ -58,7 +58,7 @@ const Button = ({
         height={height}
         style={{ height: `auto`, width: `auto` }}
       />
-      <span className="font-bold absolute top-1/2 left-1/2 game-button-text -translate-x-1/2 -translate-y-1/2 uppercase">
+      <span className="font-bold w-full absolute top-1/2 left-1/2 text-xs md:text-lg game-button-text -translate-x-1/2 -translate-y-1/2 uppercase">
         {children}
       </span>
     </button>

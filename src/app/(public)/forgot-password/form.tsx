@@ -1,14 +1,17 @@
 "use client";
-import { login } from "@/app/action/auth/actions";
+import { forgotPassword } from "@/app/action/auth/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { useRouteLoader } from "@/hooks";
-import { loginSchema, LoginSchema } from "@/lib/schemas/account.schema";
+import {
+  forgotPasswordSchema,
+  ForgotPasswordSchema,
+} from "@/lib/schemas/account.schema";
 import { useToastStore } from "@/store/toastStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
 
-const LoginForm = () => {
+const ForgotPasswordForm = () => {
   const router = useRouteLoader();
   const { showToastSuccess, showToastError } = useToastStore();
 
@@ -17,24 +20,23 @@ const LoginForm = () => {
     handleSubmit,
     formState: { isSubmitting },
     reset,
-  } = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<ForgotPasswordSchema>({
+    resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = async (data: LoginSchema) => {
+  const onSubmit = async (data: ForgotPasswordSchema) => {
     const formData = new FormData();
     formData.append("email", data.email);
-    formData.append("password", data.password);
 
-    const res = await login(formData);
+    const res = await forgotPassword(formData);
     if (!res.success) return showToastError(res.message);
     showToastSuccess(res.message);
     reset();
     router.push("/");
   };
 
-  const onInvalid = (errors: FieldErrors<LoginSchema>) => {
-    const firstErrorKey = Object.keys(errors)[0] as keyof LoginSchema;
+  const onInvalid = (errors: FieldErrors<ForgotPasswordSchema>) => {
+    const firstErrorKey = Object.keys(errors)[0] as keyof ForgotPasswordSchema;
     const firstError = errors[firstErrorKey];
     showToastError(firstError?.message);
   };
@@ -51,40 +53,18 @@ const LoginForm = () => {
           autoComplete="off"
           className="w-[300px] md:w-[500px]"
         />
-        <Input
-          placeholder="Mật khẩu"
-          type="password"
-          {...register("password")}
-          className="w-[300px] md:w-[500px]"
-        />
-
         <div className="mx-auto flex gap-2">
           <Button
             className="w-[140px] md:w-[200px]"
             type="submit"
             disabled={isSubmitting}
           >
-            Đăng nhập
-          </Button>
-          <Button
-            onClick={() => router.push("/register")}
-            className="w-[140px] md:w-[200px]"
-          >
-            Đăng ký
+            Send
           </Button>
         </div>
       </form>
-      <div className="w-full flex justify-end px-3">
-        <button
-          type="button"
-          className="underline cursor-pointer"
-          onClick={() => router.push("/forgot-password")}
-        >
-          Quên mật khẩu?
-        </button>
-      </div>
     </>
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

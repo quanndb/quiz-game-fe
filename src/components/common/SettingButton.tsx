@@ -1,3 +1,4 @@
+"use client";
 import UI from "@/resource/ui";
 import { useSettingStore } from "@/store/settingStore";
 import Button from "../ui/Button";

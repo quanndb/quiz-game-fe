@@ -1,45 +1,51 @@
 // lib/utils/withErrorHandling.ts
 import AxiosIAMInstance from "@/lib/config/axiosIAM";
-import { UserAuthorities } from "@/lib/models/account.type";
-import { ANONYMOUS, APIResponse } from "@/lib/models/common.type";
+import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
+import INTERNAL_SERVER_ERROR from "@/lib/exceptions/serverError";
+import { IUserAuthorities } from "@/lib/models/account.type";
+import { ANONYMOUS, IAPIResponse } from "@/lib/models/common.type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 
-export async function withRequestHandler(
-  fn: (data?: Record<string, unknown>) => Promise<NextResponse>,
-  request: NextRequest,
-  permission?: string,
-  schema?: z.ZodSchema
+export type options = {
+  request?: NextRequest;
+  permission?: string;
+  schema?: z.ZodSchema;
+};
+
+export type FnArgs<T> = {
+  body?: T;
+  currentUser?: IUserAuthorities;
+};
+
+export async function withRequestHandler<T>(
+  fn: (args: FnArgs<T>) => Promise<NextResponse>,
+  options?: options
 ): Promise<NextResponse> {
   return withErrorHandling(async () => {
-    let data = null;
-    if (permission) {
-      if (!(await validatePermission(permission))) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: "Permission denied",
-          },
-          { status: 403 }
-        );
+    let body: T = {} as T;
+    let currentUser = undefined;
+    if (options?.permission) {
+      const { hasPermission, userAuthorties } = await validatePermission(
+        options.permission
+      );
+      if (!hasPermission) {
+        return NextResponse.json(BAD_REQUEST_ERROR.forbidden, { status: 403 });
       }
+      currentUser = userAuthorties;
     }
-    if (schema) {
-      const result = await validateRequest(schema, request);
+    if (options?.schema) {
+      const result = await validateRequest(options.schema, options.request!);
       if (!result.success) {
-        return NextResponse.json(
-          {
-            message: "Invalid request",
-            errors: result.error.flatten().fieldErrors,
-          },
-          { status: 400 }
-        );
+        return NextResponse.json(BAD_REQUEST_ERROR.invalidRequest, {
+          status: 400,
+        });
       }
-      data = result.data;
+      body = result.data as T;
     }
-    return fn(data as Record<string, unknown>);
+    return fn({ body, currentUser });
   });
 }
 
@@ -62,14 +68,24 @@ async function withErrorHandling<T extends Response | NextResponse>(
     // Nếu là lỗi Axios
     if (axios.isAxiosError(error)) {
       const status = error.response?.status || 500;
-      const message = error.response?.data?.error || "Axios call error";
+      if (status === 401) {
+        return NextResponse.json(BAD_REQUEST_ERROR.unauthorized, {
+          status,
+        }) as T;
+      }
+      const message =
+        error.response?.data?.error ||
+        INTERNAL_SERVER_ERROR.apiCallError.message;
       return NextResponse.json({ error: message }, { status }) as T;
     }
 
     // Các lỗi khác
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Internal Server Error",
+        error:
+          error instanceof Error
+            ? error.message
+            : INTERNAL_SERVER_ERROR.internalServerError.message,
       },
       { status: 500 }
     ) as T;
@@ -77,18 +93,20 @@ async function withErrorHandling<T extends Response | NextResponse>(
 }
 
 async function validatePermission(permission: string) {
-  const userAuthorties: APIResponse<UserAuthorities> =
+  const userAuthorties: IAPIResponse<IUserAuthorities> =
     await AxiosIAMInstance.get(
       `/accounts/me/authorities`,
       await withAuthCookie()
     );
-  return (
-    userAuthorties.data.isRoot ||
-    userAuthorties.data.grantedPermissions.find((authority) => {
-      return authority.toLowerCase() === permission.toLowerCase();
-    }) ||
-    permission === ANONYMOUS
-  );
+  return {
+    hasPermission:
+      userAuthorties.data.isRoot ||
+      userAuthorties.data.grantedPermissions.find((authority) => {
+        return authority.toLowerCase() === permission.toLowerCase();
+      }) ||
+      permission === ANONYMOUS,
+    userAuthorties: userAuthorties.data,
+  };
 }
 
 export async function withAuthCookie(otherHeaders?: Record<string, string>) {

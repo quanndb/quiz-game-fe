@@ -15,18 +15,24 @@ export enum QUESTION_TYPE {
   FIND_DIFFERENCE = "FIND_DIFFERENCE",
 }
 
-export interface Topic {
+export interface ITopic {
   name: string;
   mode: TOPIC_MODE;
   description?: string;
   imageUrl?: string;
-  questions?: Question[];
+  questions?: IQuestion[];
 }
 
-export interface Question {
+export interface IQuestion {
   title: string;
+  description?: string;
   mediaUrl?: string;
   type: QUESTION_TYPE;
-  resources?: string[];
+  resources?: IResource[];
   answer: string | string[];
+}
+
+export interface IResource {
+  type: string;
+  value: string;
 }

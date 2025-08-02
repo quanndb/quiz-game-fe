@@ -9,7 +9,7 @@ export enum AccountStatus {
   INACTIVE = "INACTIVE",
 }
 
-export interface Account {
+export interface IAccount {
   id: string;
   deleted: boolean;
   email: string;
@@ -20,8 +20,9 @@ export interface Account {
   phoneNumber?: string;
 }
 
-export interface UserAuthorities {
+export interface IUserAuthorities {
   userId: string;
+  email: string;
   isRoot: boolean;
   roles: string[];
   grantedPermissions: string[];

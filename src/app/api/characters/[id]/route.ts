@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/db/mongodb";
 import { Character } from "@/lib/models/character.model";
+import { ICharacter } from "@/lib/models/character.type";
 import { characterSchema } from "@/lib/schemas/character.schema";
 import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "../..";
@@ -12,11 +13,16 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  return withRequestHandler(async () => {
-    await connectDB();
-    const character = await Character.findById(id).lean();
-    return NextResponse.json(character);
-  }, request);
+  return withRequestHandler(
+    async () => {
+      await connectDB();
+      const character = await Character.findById(id).lean();
+      return NextResponse.json(character);
+    },
+    {
+      request,
+    }
+  );
 }
 
 export async function PUT(
@@ -24,7 +30,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  return withRequestHandler(
+  return withRequestHandler<ICharacter>(
     async (body) => {
       await connectDB();
       const character = await Character.findByIdAndUpdate(id, body, {
@@ -32,9 +38,11 @@ export async function PUT(
       });
       return NextResponse.json(character);
     },
-    request,
-    "characters.update",
-    characterSchema
+    {
+      request,
+      permission: "characters.update",
+      schema: characterSchema,
+    }
   );
 }
 
@@ -49,7 +57,9 @@ export async function DELETE(
       await Character.findByIdAndDelete(id);
       return NextResponse.json({ success: true });
     },
-    request,
-    "characters.delete"
+    {
+      request,
+      permission: "characters.delete",
+    }
   );
 }

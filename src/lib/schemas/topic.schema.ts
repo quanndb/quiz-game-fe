@@ -10,9 +10,12 @@ export const topicSchema = z.object({
     .array(
       z.object({
         title: z.string().nonempty("Không được bỏ trống"),
+        description: z.string().optional(),
         mediaUrl: z.string().optional(),
         type: z.enum(QUESTION_TYPE),
-        resources: z.array(z.string()).optional(),
+        resources: z
+          .array(z.object({ type: z.string(), value: z.string() }))
+          .optional(),
         answer: z.union([
           z.string().nonempty("Không được bỏ trống"),
           z.array(z.string()).min(1, "Không được bỏ trống"),

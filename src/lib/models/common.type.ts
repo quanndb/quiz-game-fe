@@ -1,24 +1,24 @@
-export interface FormState {
+export interface IFormState {
   success: boolean;
   message?: string;
   data?: unknown;
   errors?: unknown;
 }
 
-export interface Audit {
+export interface IAudit {
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
 }
 
-export interface APIResponse<T> {
+export interface IAPIResponse<T> {
   data: T;
   success: boolean;
   code: number;
 }
 
-export interface PaginationResponse<T> extends APIResponse<T> {
+export interface IPaginationResponse<T> extends IAPIResponse<T> {
   page: {
     pageIndex: number;
     pageSize: number;
@@ -26,7 +26,7 @@ export interface PaginationResponse<T> extends APIResponse<T> {
   };
 }
 
-export interface PaginationRequest extends URLSearchParams {
+export interface IPaginationRequest extends URLSearchParams {
   pageIndex: number | 1;
   pageSize: number | 10;
   keyword: string | "";

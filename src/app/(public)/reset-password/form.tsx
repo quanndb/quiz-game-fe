@@ -2,13 +2,16 @@
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { useRouteLoader } from "@/hooks";
-import { RegisterSchema, registerSchema } from "@/lib/schemas/account.schema";
+import {
+  resetPasswordSchema,
+  ResetPasswordSchema,
+} from "@/lib/schemas/account.schema";
 import { useToastStore } from "@/store/toastStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
-import { register as registerAction } from "../../action/auth/actions";
+import { setPassword } from "../../action/auth/actions";
 
-const RegisterForm = () => {
+const ResetPasswordForm = ({ token }: { token: string }) => {
   const router = useRouteLoader();
   const { showToastSuccess, showToastError } = useToastStore();
   const {
@@ -16,30 +19,29 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { isSubmitting },
     reset,
-  } = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<ResetPasswordSchema>({
+    resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = async (data: RegisterSchema) => {
-    if (data.password !== data.confirmPassword) {
+  const onSubmit = async (data: ResetPasswordSchema) => {
+    if (data.newPassword !== data.confirmPassword) {
       return showToastError("Mật khẩu không khớp!");
     }
     const formData = new FormData();
-    formData.append("email", data.email);
-    formData.append("password", data.password);
+    formData.append("newPassword", data.newPassword);
     formData.append("confirmPassword", data.confirmPassword);
+    formData.append("token", token);
 
-    const res = await registerAction(formData);
+    const res = await setPassword(formData);
     if (!res.success) return showToastError(res.message);
     showToastSuccess(res.message);
     reset();
     router.push("/login");
   };
 
-  const onInvalid = (errors: FieldErrors<RegisterSchema>) => {
-    const firstErrorKey = Object.keys(errors)[0] as keyof RegisterSchema;
-    const firstError = errors[firstErrorKey];
-    showToastError(firstError?.message);
+  const onInvalid = (errors: FieldErrors) => {
+    const firstErrorKey = Object.keys(errors)[0];
+    showToastError(errors[firstErrorKey]?.message as string);
   };
 
   return (
@@ -48,34 +50,28 @@ const RegisterForm = () => {
       className="flex flex-col gap-4 p-3 items-center"
     >
       <Input
-        placeholder="Email"
-        {...register("email")}
-        className="w-[300px] md:w-[500px]"
-        autoComplete="off"
-      />
-      <Input
         placeholder="Mật khẩu"
-        {...register("password")}
+        {...register("newPassword")}
         type="password"
         className="w-[300px] md:w-[500px]"
       />
       <Input
-        placeholder="Xác nhận mật khẩu"
+        placeholder="Xác nhận"
         {...register("confirmPassword")}
         type="password"
         className="w-[300px] md:w-[500px]"
       />
       <div className="mx-auto">
         <Button
-          className="w-[140px] md:w-[200px]"
+          className="w-[140px] text-sm md:w-[200px]"
           type="submit"
           disabled={isSubmitting}
         >
-          Đăng ký
+          Cập nhật
         </Button>
       </div>
     </form>
   );
 };
 
-export default RegisterForm;
+export default ResetPasswordForm;
