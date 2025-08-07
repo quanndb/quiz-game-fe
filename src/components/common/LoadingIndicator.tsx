@@ -42,6 +42,7 @@ const LoadingIndicator = () => {
         width={1000}
         height={400}
         className="w-[28%]"
+        unoptimized
       />
     </div>
   );

@@ -21,7 +21,7 @@ const GameButton = ({
   return (
     <button
       className={`${
-        isDisabled ? "cursor-not-allowed" : "cursor-pointer hover:scale-105"
+        isDisabled ? "cursor-not-allowed" : "pointer hover:scale-105"
       } transform transition-transform duration-200 ${className}`}
       disabled={isDisabled}
       onClick={onClick}

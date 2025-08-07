@@ -1,0 +1,28 @@
+.option.normal {
+  background: linear-gradient(
+    180deg,
+    #f9e7c0 0%,
+    #fbedd2 16%,
+    #fcf0dd 33%,
+    #fcf1e1 51%,
+    #fcefdc 67%,
+    #faebcd 87%,
+    #f9e7c0 100%
+  );
+  color: black;
+}
+
+.option.selected {
+  background: linear-gradient(180deg, #003aff 0%, #006aff 100%);
+  color: white;
+}
+
+.option.correct {
+  background: linear-gradient(180deg, #006734 0%, #6d9900 100%);
+  color: white;
+}
+
+.option.incorrect {
+  background: linear-gradient(180deg, #810705 0%, #ff3936 100%);
+  color: white;
+}

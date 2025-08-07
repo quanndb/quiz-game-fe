@@ -15,6 +15,14 @@ const NOT_FOUND_ERROR = {
     status: 404,
     message: "File bạn tìm kiếm không tồn tại hoặc đã bị xóa.",
   },
+  sessionNotFound: {
+    status: 404,
+    message: "Không tìm thấy phiên trò chơi",
+  },
+  questionNotFound: {
+    status: 404,
+    message: "Câu hỏi bạn tìm kiếm không tồn tại hoặc đã bị xoá.",
+  },
 };
 
 export default NOT_FOUND_ERROR;

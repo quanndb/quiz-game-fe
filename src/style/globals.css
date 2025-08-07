@@ -23,6 +23,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  cursor: url("/assets/pointer.cur"), default;
+}
+
+button,
+a,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  cursor: url("/assets/grab.cur"), pointer;
+}
+
+.pointer {
+  cursor: url("/assets/grab.cur"), pointer !important;
 }
 
 .game-button-text {
@@ -47,10 +60,10 @@ body {
 
 .game-text {
   font-family: var(--font-lexend);
+  letter-spacing: 1px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 1px;
 }
 
 .game-text-stroke {

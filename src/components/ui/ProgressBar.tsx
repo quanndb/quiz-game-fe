@@ -60,7 +60,7 @@ const ProgressBar = ({ progress, onChange, className }: ProgressBarProps) => {
   return (
     <div
       ref={barRef}
-      className={`relative w-30 md:w-50 h-4 md:h-7 overflow-hidden rounded-full cursor-pointer ${
+      className={`relative w-30 md:w-50 h-4 md:h-7 overflow-hidden rounded-full pointer ${
         className ?? ""
       }`}
       style={{

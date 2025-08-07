@@ -1,38 +1,39 @@
-export enum TOPIC_MODE {
-  STORY = "STORY",
-  FIGHTING = "FIGHTING",
-  EVENT = "EVENT",
-}
-
-export enum QUESTION_TYPE {
-  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
-  TRUE_FALSE = "TRUE_FALSE",
-  TYPING = "TYPING",
-  ORDERING = "ORDERING",
-  MATCHING = "MATCHING",
-  PUZZLE = "PUZZLE",
-  MYSTERY_QUIZ = "MYSTERY_QUIZ",
-  FIND_DIFFERENCE = "FIND_DIFFERENCE",
-}
+import {
+  CHARACTER,
+  GAME_MODE,
+  PART_MECHANISM,
+  QUESTION_TYPE,
+} from "./common.type";
 
 export interface ITopic {
+  _id: string;
   name: string;
-  mode: TOPIC_MODE;
   description?: string;
-  imageUrl?: string;
-  questions?: IQuestion[];
+  mediaUrl?: string;
+  gameMode: GAME_MODE;
+  character?: CHARACTER;
+  parts: IPart[];
+}
+
+export interface IPart {
+  _id: string;
+  type: PART_MECHANISM;
+  questions: IQuestion[];
 }
 
 export interface IQuestion {
+  _id?: string;
   title: string;
   description?: string;
+  timeLimit?: number;
   mediaUrl?: string;
   type: QUESTION_TYPE;
   resources?: IResource[];
-  answer: string | string[];
+  answer: [string[]];
 }
 
 export interface IResource {
-  type: string;
+  mediaUrl?: string;
+  title?: string;
   value: string;
 }

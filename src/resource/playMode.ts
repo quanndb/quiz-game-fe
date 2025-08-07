@@ -1,5 +1,7 @@
 export const PLAY_MODE = {
   titleImage: "/assets/playModeTitle.png",
+  notAvailableMessage:
+    "Chế độ chơi vẫn đang được phát triển, bạn vui lòng đợi chúng tớ nhé!",
   modes: [
     {
       id: "STORY_MODE",

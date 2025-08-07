@@ -33,7 +33,7 @@ export default function ImageFlyer({
   };
 
   return (
-    <div className="w-[500px] h-screen flex flex-col items-center justify-start p-6">
+    <div className="w-[500px]  flex flex-col items-center justify-start">
       {/* Title */}
       <h2 className="text-xl font-semibold mb-2">
         Danh sách hình ảnh đang chạy
@@ -59,7 +59,7 @@ export default function ImageFlyer({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-24 h-24 rounded-md cursor-pointer border shadow"
+              className="w-24 h-24 rounded-md pointer border shadow"
             />
           ))}
         </motion.div>
@@ -78,7 +78,7 @@ export default function ImageFlyer({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -30, opacity: 0 }}
               whileTap={{ scale: 0.95 }}
-              className="w-16 h-16 cursor-pointer rounded-md border"
+              className="w-16 h-16 pointer rounded-md border"
             />
           ))}
         </AnimatePresence>

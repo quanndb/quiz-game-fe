@@ -1,9 +1,10 @@
+import { ANONYMOUS } from "./../../lib/models/common.type";
 // lib/utils/withErrorHandling.ts
 import AxiosIAMInstance from "@/lib/config/axiosIAM";
 import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
 import INTERNAL_SERVER_ERROR from "@/lib/exceptions/serverError";
 import { IUserAuthorities } from "@/lib/models/account.type";
-import { ANONYMOUS, IAPIResponse } from "@/lib/models/common.type";
+import { IAPIResponse } from "@/lib/models/common.type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -11,7 +12,7 @@ import z from "zod";
 
 export type options = {
   request?: NextRequest;
-  permission?: string;
+  permission?: string | typeof ANONYMOUS;
   schema?: z.ZodSchema;
 };
 
@@ -36,10 +37,11 @@ export async function withRequestHandler<T>(
       }
       currentUser = userAuthorties;
     }
+    console.log("currentUser:", currentUser, "has valid permission");
     if (options?.schema) {
       const result = await validateRequest(options.schema, options.request!);
       if (!result.success) {
-        return NextResponse.json(BAD_REQUEST_ERROR.invalidRequest, {
+        return NextResponse.json(result.error.flatten().fieldErrors, {
           status: 400,
         });
       }
@@ -92,7 +94,7 @@ async function withErrorHandling<T extends Response | NextResponse>(
   }
 }
 
-async function validatePermission(permission: string) {
+export async function validatePermission(permission: string) {
   const userAuthorties: IAPIResponse<IUserAuthorities> =
     await AxiosIAMInstance.get(
       `/accounts/me/authorities`,

@@ -1,29 +1,51 @@
 import { Schema, model, models } from "mongoose";
-import { TOPIC_MODE } from "./topic.type";
+import {
+  CHARACTER,
+  GAME_MODE,
+  PART_MECHANISM,
+  QUESTION_TYPE,
+} from "./common.type";
 
 const TopicSchema = new Schema(
   {
     name: { type: String, required: true },
-    mode: {
+    description: { type: String },
+    mediaUrl: { type: String },
+    gameMode: {
       type: String,
-      enum: TOPIC_MODE,
+      enum: GAME_MODE,
       required: true,
     },
-    description: { type: String },
-    imageUrl: { type: String },
-    questions: [
+    character: { type: String, enum: CHARACTER },
+    parts: [
       {
-        title: { type: String, required: true },
-        description: { type: String },
-        mediaUrl: { type: String },
-        type: { type: String, required: true },
-        resources: [
+        type: {
+          type: String,
+          enum: PART_MECHANISM,
+          required: true,
+          default: PART_MECHANISM.NORMAL,
+        },
+        questions: [
           {
-            type: { type: String, required: true },
-            value: { type: String, required: true },
+            title: { type: String, required: true },
+            description: { type: String },
+            timeLimit: { type: Number },
+            mediaUrl: { type: String },
+            type: {
+              type: QUESTION_TYPE,
+              required: true,
+              default: QUESTION_TYPE.MATCH_ALL,
+            },
+            resources: [
+              {
+                mediaUrl: { type: String },
+                title: { type: String },
+                value: { type: String, required: true },
+              },
+            ],
+            answer: { type: [[String]], required: true },
           },
         ],
-        answer: { type: [String], required: true },
       },
     ],
   },

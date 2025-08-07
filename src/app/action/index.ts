@@ -1,3 +1,5 @@
+import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
+import INTERNAL_SERVER_ERROR from "@/lib/exceptions/serverError";
 import { IFormState } from "@/lib/models/common.type";
 import axios from "axios";
 import z from "zod";
@@ -10,19 +12,19 @@ export function withErrorHandling<T extends unknown[], R>(
       const result = await fn(...args);
       return result;
     } catch (err) {
-      let message = "Đã có lỗi xảy ra!";
+      let message = INTERNAL_SERVER_ERROR.internalServerError.message;
       if (axios.isAxiosError(err)) {
         console.error("API call error:", err.response?.data);
         if (err.response?.status === 401) {
           return {
             success: false,
-            message: "Chưa xác thực!",
+            message: BAD_REQUEST_ERROR.unauthorized.message,
           } as IFormState;
         }
         if (err.response?.status === 403) {
           return {
             success: false,
-            message: "Không có quyền!",
+            message: BAD_REQUEST_ERROR.forbidden.message,
           } as IFormState;
         }
         message = err.response?.data?.message || message;
@@ -50,7 +52,7 @@ export function createValidatedAction<T>(schema?: z.ZodSchema<T>) {
           );
           return {
             success: false,
-            message: "Vui lòng nhập đúng thông tin!",
+            message: BAD_REQUEST_ERROR.invalidRequest.message,
             errors: result.error.flatten().fieldErrors,
           };
         }

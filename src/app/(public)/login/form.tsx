@@ -77,7 +77,7 @@ const LoginForm = () => {
       <div className="w-full flex justify-end px-3">
         <button
           type="button"
-          className="underline cursor-pointer"
+          className="underline pointer"
           onClick={() => router.push("/forgot-password")}
         >
           Quên mật khẩu?

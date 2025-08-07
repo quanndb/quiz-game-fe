@@ -41,7 +41,7 @@ const Button = ({
       className={`${
         disabled
           ? "grayscale cursor-not-allowed"
-          : "cursor-pointer hover:brightness-70 transform transition-all duration-200"
+          : "pointer hover:brightness-70 transform transition-all duration-200"
       } ${className} relative ${
         isMouseDown ? "scale-95" : ""
       } flex items-center justify-center`}
@@ -58,7 +58,7 @@ const Button = ({
         height={height}
         style={{ height: `auto`, width: `auto` }}
       />
-      <span className="font-bold w-full absolute top-1/2 left-1/2 text-xs md:text-lg game-button-text -translate-x-1/2 -translate-y-1/2 uppercase">
+      <span className="font-bold w-full absolute top-1/2 left-1/2 text-md md:text-lg game-button-text -translate-x-1/2 -translate-y-1/2 uppercase">
         {children}
       </span>
     </button>

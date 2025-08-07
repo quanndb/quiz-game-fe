@@ -1,0 +1,28 @@
+.title {
+  position: relative;
+  padding: 16px 24px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  z-index: 1;
+  color: #000;
+  font-weight: bold;
+  font-family: var(--font-lexend);
+}
+
+.title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px; /* độ dày "border" */
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(117, 225, 116, 0) 0%, #75e174 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(2px); /* hiệu ứng mờ viền */
+  z-index: -1;
+}

@@ -2,5 +2,9 @@ import z from "zod";
 
 export const objectId = z
   .string()
-  .min(1, "ID không được bỏ trống")
   .regex(/^[0-9a-fA-F]{24}$/, "ID không hợp lệ");
+
+export const createEnumSchema = (values: string[], message: string) =>
+  z.string("Không được bỏ trống").refine((val) => values.includes(val), {
+    message: message + `: (${values.join(", ")})`,
+  });

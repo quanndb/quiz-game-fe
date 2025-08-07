@@ -1,17 +1,49 @@
 import { uuid, z } from "zod";
-import { objectId } from "./common.schema";
+import { GAME_MODE } from "../models/common.type";
+import { createEnumSchema, objectId } from "./common.schema";
 
+// create session
 export const createSessionSchema = z.object({
-  topicId: objectId,
-  characterId: objectId,
+  gameMode: createEnumSchema(
+    Object.values(GAME_MODE),
+    "Chế độ chơi không hợp lệ"
+  ),
+  topicId: objectId.optional(),
+  characterId: objectId.min(1, "Không được bỏ trống nhân vật"),
 });
 export type CreateSessionSchema = z.infer<typeof createSessionSchema>;
 
+// create story or fighting session
+export const createStoryOrFightingSessionSchema = z.object({
+  characterId: objectId.min(1, "Không được bỏ trống nhân vật"),
+});
+
+export type CreateStoryOrFightingSessionSchema = z.infer<
+  typeof createStoryOrFightingSessionSchema
+>;
+
+// create event session
+export const createEventSessionSchema = z.object({
+  characterId: objectId.min(1, "Không được bỏ trống nhân vật"),
+  topicId: objectId.min(1, "Không được bỏ trống topic"),
+});
+export type CreateEventSessionSchema = z.infer<typeof createEventSessionSchema>;
+
+// join session
 export const joinSessionSchema = z.object({
   characterId: objectId,
 });
 export type JoinSessionSchema = z.infer<typeof joinSessionSchema>;
 
+// answer schema
+export const answerSchema = z.object({
+  answer: z
+    .array(z.string().min(1, "Không được bỏ trống đáp án"))
+    .min(1, "Không được bỏ trống đáp án"),
+});
+export type AnswerSchema = z.infer<typeof answerSchema>;
+
+// common
 export const sessionSchema = z.object({
   topicId: objectId,
 

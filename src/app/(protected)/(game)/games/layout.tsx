@@ -1,6 +1,5 @@
 "use client";
 import ImageBackgroundLayout from "@/components/layouts/ImageBackgroundLayout";
-import Button from "@/components/ui/Button";
 import Image from "next/image";
 
 const GameLayout = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +9,7 @@ const GameLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="flex flex-col items-center justify-center min-h-screen w-full relative">
         {/* Logo */}
-        <div className="w-full flex justify-center absolute top-0">
+        <div className="w-full flex justify-center absolute top-0 z-100 -translate-x-[4%] md:-translate-x-[1%]">
           <Image
             src={`/assets/chapter1Logo.png`}
             alt={`Chapter 1`}
@@ -31,20 +30,6 @@ const GameLayout = ({ children }: { children: React.ReactNode }) => {
             priority
           />
           <div className="absolute p-5">{children}</div>
-          <div className="flex w-full justify-between absolute">
-            <Button
-              backgroundImage={`/assets/leftArrow.svg`}
-              width={128}
-              height={128}
-              className="w-[10%] md:w-[5%] h-auto"
-            />
-            <Button
-              backgroundImage={`/assets/rightArrow.svg`}
-              width={128}
-              height={128}
-              className="w-[10%] md:w-[5%] h-auto"
-            />
-          </div>
         </div>
       </div>
     </ImageBackgroundLayout>

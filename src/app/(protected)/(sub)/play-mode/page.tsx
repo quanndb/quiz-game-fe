@@ -12,9 +12,7 @@ const PlayMode = () => {
 
   const handleClick = (isAvailable: boolean) => {
     if (!isAvailable) {
-      return showToastSuccess(
-        "Chế độ chơi vẫn đang được phát triển, bạn vui lòng đợi chúng tớ nhé!"
-      );
+      return showToastSuccess(PLAY_MODE.notAvailableMessage);
     }
     router.push("/charactors");
   };

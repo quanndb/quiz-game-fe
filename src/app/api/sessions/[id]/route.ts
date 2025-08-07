@@ -1,7 +1,10 @@
 import { connectDB } from "@/lib/db/mongodb";
+import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
+import NOT_FOUND_ERROR from "@/lib/exceptions/notFound";
 import { Character } from "@/lib/models/character.model";
 import { ANONYMOUS } from "@/lib/models/common.type";
 import { Session } from "@/lib/models/session.model";
+import { GAME_MODE } from "@/lib/models/session.type";
 import {
   JoinSessionSchema,
   joinSessionSchema,
@@ -9,59 +12,86 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "../..";
 
-// Toggle user game session
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  return withRequestHandler(
+    async () => {
+      await connectDB();
+      const session = await Session.findById(id).lean();
+      return NextResponse.json(session);
+    },
+    { request }
+  );
+}
+
+// toogle join
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+
   return withRequestHandler<JoinSessionSchema>(
     async ({ body, currentUser: user }) => {
       await connectDB();
-      // find by id and endAt is null
-      const session = await Session.findOne({ _id: id, endAt: null });
-      if (!session) {
-        return NextResponse.json(
-          { message: "Không tìm thấy phiên trò chơi" },
-          { status: 404 }
-        );
-      }
-      // check if the game has started then return
-      if (session.startAt)
-        return NextResponse.json(
-          { message: "Phiên trò chơi đã bắt đầu" },
-          { status: 400 }
-        );
-      // if user is null or body is null then return
+
       if (!user || !body) {
-        return NextResponse.json(
-          { message: "Yêu cầu không hợp lệ" },
-          { status: 404 }
-        );
+        return NextResponse.json(BAD_REQUEST_ERROR.invalidRequest, {
+          status: 400,
+        });
       }
-      // if visible in session.players then remove it, else add it
-      if (
-        session.players.some(
-          (p: { playerId: string }) => p.playerId === user.userId
-        )
-      ) {
+
+      const session = await Session.findOne({ _id: id, endAt: undefined });
+      if (!session) {
+        return NextResponse.json(NOT_FOUND_ERROR.sessionNotFound, {
+          status: 404,
+        });
+      }
+
+      const isJoined = session.players.some(
+        (p: { playerId: string }) => p.playerId === user.userId
+      );
+      const hasStarted = !!session.startAt;
+
+      if (hasStarted && !isJoined) {
+        return NextResponse.json(BAD_REQUEST_ERROR.gameStarted, {
+          status: 400,
+        });
+      }
+
+      if (isJoined) {
+        // Remove player
         session.players = session.players.filter(
           (p: { playerId: string }) => p.playerId !== user.userId
         );
-        // move host to another player
-        // end game if no player
+
         if (session.players.length === 0) {
-          session.endAt = new Date();
+          session.endAt = new Date(); // End session if no one left
         } else {
-          session.players[0].isHost = true;
+          session.players[0].isHost = true; // Assign host to first player
         }
       } else {
-        if (!(await Character.exists({ _id: body.characterId }))) {
-          return NextResponse.json(
-            { message: "Không tìm thấy nhân vật" },
-            { status: 404 }
-          );
+        // Ensure only FIGHTING mode can be joined manually
+        if (session.gameMode !== GAME_MODE.FIGHTING) {
+          return NextResponse.json(BAD_REQUEST_ERROR.cantJoinThisSession, {
+            status: 400,
+          });
         }
+
+        // Validate character
+        const characterExists = await Character.exists({
+          _id: body.characterId,
+        });
+        if (!characterExists) {
+          return NextResponse.json(NOT_FOUND_ERROR.characterNotFound, {
+            status: 404,
+          });
+        }
+
+        // Add player
         session.players.push({
           playerId: user.userId,
           email: user.email,
@@ -70,50 +100,13 @@ export async function PATCH(
           score: 0,
         });
       }
-      return NextResponse.json((await session.save()).toObject());
+      const updatedSession = await session.save();
+      return NextResponse.json(updatedSession.toObject());
     },
     {
       request,
       permission: ANONYMOUS,
       schema: joinSessionSchema,
-    }
-  );
-}
-
-// start game
-export async function PUT(
-  _: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  return withRequestHandler<JoinSessionSchema>(
-    async ({ currentUser }) => {
-      await connectDB();
-      // find by id and endAt is null
-      const session = await Session.findOne({ _id: id, endAt: null });
-      if (!session) {
-        return NextResponse.json(
-          { message: "Không tìm thấy phiên trò chơi" },
-          { status: 404 }
-        );
-      }
-      // check if user is host then can start game else return error
-      if (
-        !session.players.some(
-          (p: { playerId: string; isHost: boolean }) =>
-            p.playerId === currentUser?.userId && p.isHost
-        )
-      ) {
-        return NextResponse.json(
-          { message: "Bạn không phải người chủ trì" },
-          { status: 404 }
-        );
-      }
-      if (session) session.startAt = new Date();
-      return NextResponse.json((await session.save()).toObject());
-    },
-    {
-      permission: ANONYMOUS,
     }
   );
 }

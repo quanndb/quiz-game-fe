@@ -33,3 +33,27 @@ export interface IPaginationRequest extends URLSearchParams {
 }
 
 export const ANONYMOUS = "anonymous";
+
+export enum GAME_MODE {
+  STORY = "STORY",
+  FIGHTING = "FIGHTING",
+  EVENT = "EVENT",
+}
+
+export enum PART_MECHANISM {
+  NORMAL = "NORMAL",
+  FAST_QUESTION = "FAST_QUESTION",
+  CROSSWORD = "CROSSWORD",
+  NPC = "NPC",
+}
+
+export enum QUESTION_TYPE {
+  MATCH_ALL = "MATCH_ALL",
+  MATCH_ANY = "MATCH_ANY",
+}
+
+export enum CHARACTER {
+  SMALL_LEAF = "SMALL_LEAF",
+  EXPLORER = "EXPLORER",
+  SCIENTIST = "SCIENTIST",
+}

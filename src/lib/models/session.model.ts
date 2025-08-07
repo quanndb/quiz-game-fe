@@ -1,11 +1,20 @@
-import { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema } from "mongoose";
+import { CHARACTER, GAME_MODE } from "./common.type";
+import { Topic } from "./topic.model";
 
 const SessionSchema = new Schema(
   {
-    topicId: {
-      type: Types.ObjectId,
-      ref: "Topic",
+    gameMode: {
+      type: String,
+      enum: GAME_MODE,
       required: true,
+    },
+    character: {
+      type: String,
+      enum: CHARACTER,
+    },
+    sessionCode: {
+      type: String,
     },
     startAt: {
       type: Date,
@@ -13,13 +22,9 @@ const SessionSchema = new Schema(
     endAt: {
       type: Date,
     },
+    orderedTopics: [Topic],
     players: [
       {
-        playerId: {
-          // UUID
-          type: String,
-          required: true,
-        },
         isHost: {
           type: Boolean,
           required: true,
@@ -28,34 +33,24 @@ const SessionSchema = new Schema(
           type: String,
           required: true,
         },
-        characterId: {
-          type: Types.ObjectId,
-          ref: "Character",
-          required: true,
-        },
         score: {
           type: Number,
           required: true,
         },
       },
     ],
-    userAnswers: [
+    answers: [
       {
-        playerId: {
-          type: String,
-          required: true,
-        },
         email: {
           type: String,
           required: true,
         },
         questionId: {
-          type: Types.ObjectId,
-          ref: "Question",
+          type: String,
           required: true,
         },
         answer: {
-          type: [String],
+          type: [[String]],
           required: true,
         },
         answeredAt: {
@@ -68,6 +63,20 @@ const SessionSchema = new Schema(
         },
       },
     ],
+    currentPosition: {
+      topicIndex: {
+        type: Number,
+        required: true,
+      },
+      partIndex: {
+        type: Number,
+        required: true,
+      },
+      questionIndex: {
+        type: Number,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );

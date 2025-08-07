@@ -6,6 +6,11 @@ const LOADING = {
 const ICON = {
   soundIcon: "/assets/soundIcon.svg",
   musicIcon: "/assets/musicIcon.svg",
+  questIcon: "/assets/questIcon.svg",
+  dragDropIcon: "/assets/dragDropIcon.svg",
+  trueFalseIcon: "/assets/check.svg",
+  crosswordIcon: "/assets/crossword.svg",
+  matchingIcon: "/assets/matching.svg",
 };
 
 const BUTTON = {

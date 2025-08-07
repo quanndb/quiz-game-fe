@@ -47,10 +47,12 @@ const CharactorSelection = () => {
               />
             }
             className={`${
-              selectedCharactor !== charactor.name && selectedCharactor
-                ? "grayscale"
-                : "cursor-pointer"
-            } ${selectedCharactor === charactor.name ? "scale-110" : ""}`}
+              selectedCharactor !== charactor.name &&
+              selectedCharactor &&
+              "grayscale"
+            } ${
+              selectedCharactor === charactor.name ? "scale-110" : ""
+            } pointer`}
             onClick={() => handleSelectCharactor(charactor.name)}
           />
         ))}
@@ -60,7 +62,7 @@ const CharactorSelection = () => {
           width={300}
           height={60}
           disabled={!selectedCharactor}
-          onClick={() => router.push("/game")}
+          onClick={() => router.push("/games/1")}
           backgroundImage={UI.BUTTON.selectCharactorImage}
         ></Button>
       </div>
