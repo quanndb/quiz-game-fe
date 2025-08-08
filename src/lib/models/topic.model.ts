@@ -21,7 +21,7 @@ const TopicSchema = new Schema(
       {
         type: {
           type: String,
-          enum: PART_MECHANISM,
+          enum: Object.values(PART_MECHANISM), //  enum từ TypeScript enum
           required: true,
           default: PART_MECHANISM.NORMAL,
         },
@@ -34,7 +34,6 @@ const TopicSchema = new Schema(
             type: {
               type: QUESTION_TYPE,
               required: true,
-              default: QUESTION_TYPE.MATCH_ALL,
             },
             resources: [
               {

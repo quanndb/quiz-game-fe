@@ -14,7 +14,7 @@ export const topicSchema = z.object({
   gameMode: createEnumSchema(
     Object.values(GAME_MODE),
     `Chế độ chơi không hợp lệ`
-  ),
+  ).nonempty("Không được bỏ trống chế độ chơi"),
   character: createEnumSchema(
     Object.values(CHARACTER),
     `Nhân vật không hợp lệ`
@@ -61,7 +61,8 @@ export const topicSchema = z.object({
             })
           )
           .optional(),
-      })
+      }),
+      "Danh sách không bỏ trống"
     )
     .nonempty("Không được bỏ trống"),
 });

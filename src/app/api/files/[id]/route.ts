@@ -21,6 +21,6 @@ export async function DELETE(
       await File.deleteOne({ _id: id });
       return NextResponse.json({ success: true });
     },
-    { request }
+    { request, permission: "files.delete" }
   );
 }
