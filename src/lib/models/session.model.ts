@@ -1,8 +1,8 @@
 import { model, models, Schema } from "mongoose";
-import { CHARACTER, GAME_MODE } from "./common.type";
-import { Topic } from "./topic.model";
+import { CHARACTER, GAME_MODE, GAME_STATUS } from "../types/common.type";
+import { TopicModelSchema } from "./topic.model";
 
-const SessionSchema = new Schema(
+const SessionModelSchema = new Schema(
   {
     gameMode: {
       type: String,
@@ -22,7 +22,15 @@ const SessionSchema = new Schema(
     endAt: {
       type: Date,
     },
-    orderedTopics: [Topic],
+    status: {
+      type: String,
+      enum: GAME_STATUS,
+      required: true,
+    },
+    lastStartAnswerAt: {
+      type: Date,
+    },
+    topics: [TopicModelSchema],
     players: [
       {
         isHost: {
@@ -39,6 +47,16 @@ const SessionSchema = new Schema(
         },
       },
     ],
+    currentPosition: {
+      topicIndex: {
+        type: Number,
+        required: true,
+      },
+      questionIndex: {
+        type: Number,
+        required: true,
+      },
+    },
     answers: [
       {
         email: {
@@ -63,22 +81,8 @@ const SessionSchema = new Schema(
         },
       },
     ],
-    currentPosition: {
-      topicIndex: {
-        type: Number,
-        required: true,
-      },
-      partIndex: {
-        type: Number,
-        required: true,
-      },
-      questionIndex: {
-        type: Number,
-        required: true,
-      },
-    },
   },
   { timestamps: true }
 );
 
-export const Session = models.Session || model("Session", SessionSchema);
+export const Session = models.Session || model("Session", SessionModelSchema);

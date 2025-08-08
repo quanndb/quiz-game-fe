@@ -1,6 +1,6 @@
 import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
 import INTERNAL_SERVER_ERROR from "@/lib/exceptions/serverError";
-import { IFormState } from "@/lib/models/common.type";
+import { IFormState } from "@/lib/types/common.type";
 import axios from "axios";
 import z from "zod";
 

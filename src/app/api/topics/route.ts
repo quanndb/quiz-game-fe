@@ -1,8 +1,7 @@
 import { connectDB } from "@/lib/db/mongodb";
-import { ANONYMOUS } from "@/lib/models/common.type";
 import { Topic } from "@/lib/models/topic.model";
-import { ITopic } from "@/lib/models/topic.type";
 import { topicSchema } from "@/lib/schemas/topic.schema";
+import { ITopic, TopicModel } from "@/lib/types/topic.type";
 import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "..";
 
@@ -13,16 +12,11 @@ export async function GET(request: NextRequest) {
       const topics = await Topic.find().lean();
       const result = topics.map((t) => ({
         ...t,
-        parts: [
-          ...t.parts.map((p: { questions: unknown[] }) => ({
-            ...p,
-            questions: undefined,
-          })),
-        ],
+        questions: undefined,
       }));
       return NextResponse.json(result);
     },
-    { request, permission: ANONYMOUS }
+    { request, permission: "topics.read" }
   );
 }
 
@@ -30,7 +24,7 @@ export async function POST(request: NextRequest) {
   return withRequestHandler<ITopic>(
     async ({ body }) => {
       await connectDB();
-      const topic = await Topic.create(body);
+      const topic: TopicModel = await Topic.create(body);
       return NextResponse.json(topic);
     },
     {

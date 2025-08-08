@@ -1,9 +1,4 @@
-import {
-  CHARACTER,
-  GAME_MODE,
-  PART_MECHANISM,
-  QUESTION_TYPE,
-} from "./common.type";
+import { CHARACTER, GAME_MODE, Model, QUESTION_TYPE } from "./common.type";
 
 export interface ITopic {
   _id: string;
@@ -12,17 +7,13 @@ export interface ITopic {
   mediaUrl?: string;
   gameMode: GAME_MODE;
   character?: CHARACTER;
-  parts: IPart[];
-}
-
-export interface IPart {
-  _id: string;
-  type: PART_MECHANISM;
   questions: IQuestion[];
 }
 
+export interface TopicModel extends ITopic, Model {}
+
 export interface IQuestion {
-  _id?: string;
+  _id: string;
   title: string;
   description?: string;
   timeLimit?: number;

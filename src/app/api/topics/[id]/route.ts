@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db/mongodb";
 import NOT_FOUND_ERROR from "@/lib/exceptions/notFound";
 import { Topic } from "@/lib/models/topic.model";
 import { Topic as TopicSchema, topicSchema } from "@/lib/schemas/topic.schema";
+import { TopicModel } from "@/lib/types/topic.type";
 import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "../..";
 
@@ -31,7 +32,13 @@ export async function PATCH(
   return withRequestHandler<TopicSchema>(
     async ({ body }) => {
       await connectDB();
-      const topic = await Topic.findByIdAndUpdate(id, body, { new: true });
+      const topic: TopicModel | null = await Topic.findByIdAndUpdate(id, body, {
+        new: true,
+      });
+      if (!topic)
+        return NextResponse.json(NOT_FOUND_ERROR.topicNotFound, {
+          status: 404,
+        });
       return NextResponse.json(topic);
     },
     {
@@ -50,13 +57,13 @@ export async function GET(
   return withRequestHandler(
     async () => {
       await connectDB();
-      const topic = await Topic.findById(id).lean();
+      const topic: TopicModel | null = await Topic.findById(id);
       if (!topic)
         return NextResponse.json(NOT_FOUND_ERROR.topicNotFound, {
           status: 404,
         });
       return NextResponse.json(topic);
     },
-    { request, permission: "topics.get" }
+    { request, permission: "topics.read" }
   );
 }

@@ -1,4 +1,4 @@
-import { QUESTION_TYPE } from "@/lib/models/topic.type";
+import { QUESTION_TYPE } from "@/lib/types/common.type";
 import UI from "@/resource/ui";
 import "@/style/QuestionTitle.css";
 import Image from "next/image";
@@ -16,7 +16,7 @@ const QuestionTitle = ({
     switch (type) {
       case QUESTION_TYPE.MULTIPLE_CHOICE:
         return UI.ICON.questIcon;
-      case QUESTION_TYPE.ORDERING:
+      case QUESTION_TYPE.ORDERING_CERCILE:
         return UI.ICON.dragDropIcon;
       default:
         return UI.ICON.questIcon;

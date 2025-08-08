@@ -2,7 +2,7 @@
 import GameOption, { OPTION_TYPE } from "@/components/common/GameOption";
 import QuestionTitle from "@/components/common/QuestionTitle";
 import Button from "@/components/ui/Button";
-import { IQuestion, IResource } from "@/lib/models/topic.type";
+import { IQuestion, IResource } from "@/lib/types/topic.type";
 import { useToastStore } from "@/store/toastStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -37,12 +37,7 @@ const Order = ({ question }: { question: IQuestion }) => {
     });
   };
 
-  const handleSubmit = () => {
-    setSelected((prev) => ({
-      ...prev,
-      isCorrect: prev.value === question.answer[0],
-    }));
-  };
+  const handleSubmit = () => {};
 
   const getOptionStatus = (choice: IResource) => {
     const isSelected = selected.value === choice.value;
@@ -51,7 +46,7 @@ const Order = ({ question }: { question: IQuestion }) => {
       return isSelected ? OPTION_TYPE.SELECTED : OPTION_TYPE.NORMAL;
     }
 
-    if (selected.isCorrect === true && choice.value === question.answer[0]) {
+    if (selected.isCorrect === true) {
       return OPTION_TYPE.CORRECT;
     }
 

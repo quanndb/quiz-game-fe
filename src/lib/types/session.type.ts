@@ -1,4 +1,4 @@
-import { CHARACTER, GAME_MODE } from "./common.type";
+import { CHARACTER, GAME_MODE, GAME_STATUS, Model } from "./common.type";
 import { ITopic } from "./topic.type";
 
 export interface ISession {
@@ -7,16 +7,18 @@ export interface ISession {
   gameMode: GAME_MODE;
   character?: CHARACTER;
   sessionCode?: string;
-  isFinished: boolean;
+  status: GAME_STATUS;
+  lastStartAnswerAt?: Date;
   players: IPlayer[];
-  orderedTopics: ITopic[];
+  topics: ITopic[];
   answers: IAnswer[];
   currentPosition: {
     topicIndex: number;
-    partIndex: number;
     questionIndex: number;
   };
 }
+
+export interface SessionModel extends ISession, Model {}
 
 export interface IPlayer {
   email: string;

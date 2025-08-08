@@ -1,15 +1,10 @@
 import { connectDB } from "@/lib/db/mongodb";
 import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
 import NOT_FOUND_ERROR from "@/lib/exceptions/notFound";
-import { Character } from "@/lib/models/character.model";
-import { ANONYMOUS } from "@/lib/models/common.type";
 import { Session } from "@/lib/models/session.model";
-import { GAME_MODE, ISession } from "@/lib/models/session.type";
 import { Topic } from "@/lib/models/topic.model";
-import {
-  CreateStoryOrFightingSessionSchema,
-  createStoryOrFightingSessionSchema,
-} from "@/lib/schemas/session.schema";
+import { ANONYMOUS, GAME_MODE } from "@/lib/types/common.type";
+import { ISession } from "@/lib/types/session.type";
 import { generateRandomCode } from "@/lib/utils/randomCodeGenerator";
 import { NextRequest, NextResponse } from "next/server";
 import { withRequestHandler } from "../..";
@@ -29,33 +24,25 @@ const generateSessionCode = async () => {
 };
 
 export async function POST(request: NextRequest) {
-  return withRequestHandler<CreateStoryOrFightingSessionSchema>(
-    async ({ body, currentUser: user }) => {
+  return withRequestHandler(
+    async ({ currentUser: user }) => {
       await connectDB();
 
-      if (!user || !body?.characterId) {
+      if (!user) {
         return NextResponse.json(BAD_REQUEST_ERROR.invalidRequest, {
           status: 400,
         });
       }
 
       // Kiểm tra người dùng đã tham gia session chưa
-      const inSession = await Session.exists({
-        players: { $elemMatch: { playerId: user.userId } },
+      const isInSession = await Session.exists({
+        players: { $elemMatch: { email: user.email } },
         gameMode: { $in: [GAME_MODE.FIGHTING, GAME_MODE.EVENT] },
         endAt: undefined,
       });
 
-      if (inSession) {
+      if (isInSession) {
         return NextResponse.json(BAD_REQUEST_ERROR.inASession, { status: 400 });
-      }
-
-      // Kiểm tra nhân vật tồn tại
-      const characterExists = await Character.exists({ _id: body.characterId });
-      if (!characterExists) {
-        return NextResponse.json(NOT_FOUND_ERROR.characterNotFound, {
-          status: 404,
-        });
       }
 
       // Lấy topic ngẫu nhiên theo game mode FIGHTING
@@ -72,31 +59,26 @@ export async function POST(request: NextRequest) {
 
       // Tạo session
       const session: ISession = {
-        topicId: topic._id.toString(),
         gameMode: GAME_MODE.FIGHTING,
         sessionCode: (await generateSessionCode()).toString(),
-        numOfQuests: topic.questions?.length ?? 0,
         players: [
           {
-            playerId: user.userId,
             email: user.email,
-            characterId: body.characterId,
             isHost: true,
             score: 0,
           },
         ],
-        userAnswers: [],
-        quests: [],
+        isFinished: false,
+        topics: [topic],
+        answers: [],
+        currentPosition: { topicIndex: 0, questionIndex: 0 },
       };
 
-      const createdSession = await Session.create(session);
-
-      return NextResponse.json(createdSession);
+      return NextResponse.json(await Session.create(session));
     },
     {
       request,
       permission: ANONYMOUS,
-      schema: createStoryOrFightingSessionSchema,
     }
   );
 }

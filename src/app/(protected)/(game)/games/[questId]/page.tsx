@@ -1,6 +1,7 @@
 import MultipleChoice from "@/components/common/MultipleChoice";
 import Order from "@/components/common/Order";
-import { IQuestion, QUESTION_TYPE } from "@/lib/models/topic.type";
+import { QUESTION_TYPE } from "@/lib/types/common.type";
+import { IQuestion } from "@/lib/types/topic.type";
 import { notFound } from "next/navigation";
 
 const QUESTION_DATA: IQuestion[] = [
@@ -11,23 +12,23 @@ const QUESTION_DATA: IQuestion[] = [
     mediaUrl: "/assets/resource1.png",
     resources: [
       {
-        type: "string",
+        title: "string",
         value: "A. Vùng nhiệt đới",
       },
       {
-        type: "string",
+        title: "string",
         value: "B. Vùng cận nhiệt đới",
       },
       {
-        type: "string",
+        title: "string",
         value: "C. Vùng ôn đới lạnh",
       },
       {
-        type: "string",
+        title: "string",
         value: "D. Vùng xích đạo",
       },
     ],
-    answer: ["A. Vùng nhiệt đới"],
+    answer: [["A. Vùng nhiệt đới"]],
   },
   {
     _id: "2",
@@ -38,48 +39,48 @@ const QUESTION_DATA: IQuestion[] = [
       "“........................................  là nơi sinh sống của các loài thực vật ngập mặn như đước, mắm, sú, ...”",
     resources: [
       {
-        type: "string",
+        title: "string",
         value: "A. Rừng ngập mặn",
       },
       {
-        type: "string",
+        title: "string",
         value: "B. Rừng tre nứa",
       },
       {
-        type: "string",
+        title: "string",
         value: "C. Rừng nguyên sinh",
       },
       {
-        type: "string",
+        title: "string",
         value: "D. Rừng rậm",
       },
     ],
-    answer: ["A. Rừng ngập mặn"],
+    answer: [["A. Rừng ngập mặn"]],
   },
   {
     _id: "3",
-    type: QUESTION_TYPE.ORDERING,
+    type: QUESTION_TYPE.ORDERING_CERCILE,
     title: "Sắp xếp trình tự các tầng cây trong rừng từ thấp đến cao",
     mediaUrl: "/assets/plant1.png",
     resources: [
       {
-        type: "string",
+        title: "string",
         value: "Tầng cây bụi",
       },
       {
-        type: "string",
+        title: "string",
         value: "Tầng tán chính",
       },
       {
-        type: "string",
+        title: "string",
         value: "Tầng vượt tán",
       },
       {
-        type: "string",
+        title: "string",
         value: "Tầng cỏ quyết",
       },
     ],
-    answer: ["Tầng vượt tán"],
+    answer: [["Tầng vượt tán"]],
   },
 ];
 
@@ -87,7 +88,7 @@ const questionComponentMap: Record<string, React.FC<{ question: unknown }>> = {
   [QUESTION_TYPE.MULTIPLE_CHOICE]: MultipleChoice as React.FC<{
     question: unknown;
   }>,
-  [QUESTION_TYPE.ORDERING]: Order as React.FC<{
+  [QUESTION_TYPE.ORDERING_CERCILE]: Order as React.FC<{
     question: unknown;
   }>,
   // thêm các loại khác nếu cần

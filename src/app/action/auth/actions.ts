@@ -1,13 +1,13 @@
 "use server";
 
 import { AxiosIAMInstance } from "@/lib/config";
-import { IFormState } from "@/lib/models/common.type";
 import {
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
   resetPasswordSchema,
 } from "@/lib/schemas/account.schema";
+import { IFormState } from "@/lib/types/common.type";
 import { cookies } from "next/headers";
 import { createValidatedAction } from "..";
 

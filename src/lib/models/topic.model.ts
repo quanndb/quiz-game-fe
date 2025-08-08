@@ -1,12 +1,7 @@
 import { Schema, model, models } from "mongoose";
-import {
-  CHARACTER,
-  GAME_MODE,
-  PART_MECHANISM,
-  QUESTION_TYPE,
-} from "./common.type";
+import { CHARACTER, GAME_MODE, QUESTION_TYPE } from "../types/common.type";
 
-const TopicSchema = new Schema(
+export const TopicModelSchema = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
@@ -17,34 +12,25 @@ const TopicSchema = new Schema(
       required: true,
     },
     character: { type: String, enum: CHARACTER },
-    parts: [
+    questions: [
       {
+        title: { type: String, required: true },
+        description: { type: String },
+        timeLimit: { type: Number },
+        mediaUrl: { type: String },
         type: {
           type: String,
-          enum: Object.values(PART_MECHANISM), //  enum từ TypeScript enum
+          enum: QUESTION_TYPE,
           required: true,
-          default: PART_MECHANISM.NORMAL,
         },
-        questions: [
+        resources: [
           {
-            title: { type: String, required: true },
-            description: { type: String },
-            timeLimit: { type: Number },
             mediaUrl: { type: String },
-            type: {
-              type: QUESTION_TYPE,
-              required: true,
-            },
-            resources: [
-              {
-                mediaUrl: { type: String },
-                title: { type: String },
-                value: { type: String, required: true },
-              },
-            ],
-            answer: { type: [[String]], required: true },
+            title: { type: String },
+            value: { type: String, required: true },
           },
         ],
+        answer: { type: [[String]], required: true },
       },
     ],
   },
@@ -53,4 +39,4 @@ const TopicSchema = new Schema(
   }
 );
 
-export const Topic = models.Topic || model("Topic", TopicSchema);
+export const Topic = models.Topic || model("Topic", TopicModelSchema);

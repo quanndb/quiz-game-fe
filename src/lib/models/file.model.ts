@@ -1,6 +1,6 @@
 import { model, models, Schema } from "mongoose";
 
-const FileSchema = new Schema(
+const FileModelSchema = new Schema(
   {
     name: { type: String, required: true },
     savedName: { type: String, required: true },
@@ -14,4 +14,4 @@ const FileSchema = new Schema(
   }
 );
 
-export const File = models.File || model("File", FileSchema);
+export const File = models.File || model("File", FileModelSchema);

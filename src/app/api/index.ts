@@ -1,10 +1,9 @@
-import { ANONYMOUS } from "./../../lib/models/common.type";
 // lib/utils/withErrorHandling.ts
 import AxiosIAMInstance from "@/lib/config/axiosIAM";
 import BAD_REQUEST_ERROR from "@/lib/exceptions/badRequest";
 import INTERNAL_SERVER_ERROR from "@/lib/exceptions/serverError";
-import { IUserAuthorities } from "@/lib/models/account.type";
-import { IAPIResponse } from "@/lib/models/common.type";
+import { IUserAuthorities } from "@/lib/types/account.type";
+import { ANONYMOUS, IAPIResponse } from "@/lib/types/common.type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,8 +16,8 @@ export type options = {
 };
 
 export type FnArgs<T> = {
-  body?: T;
-  currentUser?: IUserAuthorities;
+  body: T;
+  currentUser: IUserAuthorities;
 };
 
 export async function withRequestHandler<T>(
@@ -27,7 +26,13 @@ export async function withRequestHandler<T>(
 ): Promise<NextResponse> {
   return withErrorHandling(async () => {
     let body: T = {} as T;
-    let currentUser = undefined;
+    let currentUser = {
+      email: ANONYMOUS,
+      userId: ANONYMOUS,
+      isRoot: false,
+      grantedPermissions: [],
+      roles: [],
+    } as IUserAuthorities;
     if (options?.permission) {
       const { hasPermission, userAuthorties } = await validatePermission(
         options.permission
